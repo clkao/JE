@@ -1,0 +1,135 @@
+JE, version 0.053
+
+JE is a pure-Perl ECMAScript (JavaScript) engine. Here are some of its
+advantages:
+
+    - Easy to install (no C compiler necessary)
+    - Compatible with Data::Dump::Streamer, so the runtime environment
+      can be serialised
+    - The parser can be extended/customised to support extra (or
+      fewer) language features (not yet complete)
+    - All JavaScript datatypes can be manipulated directly from Perl
+      (they all have overloaded operators)
+
+Here are its main weakness:
+    - It's slow (well, what did you expect?).
+    - It uses lots of memory.
+    - It leaks memory (to be fixed).
+
+This is still an alpha release, but it fully implements ECMAScript v3,
+except for a few seldom-used features like -0.
+
+If  you have the time and the interest,  please experiment  with  this
+module (or maybe even lend a hand :-). If you have any ideas as to how
+the API could be improved or reworked, please e-mail me.
+
+
+RECENT CHANGES
+
+0.053
+-----
+• The regular expression module was relying on a bug in perl that  is
+  fixed in 5.13.8.
+• The  match  and  search  methods of strings now work if no  regular
+  expressions have been used yet. (A ‘require’ was missing.)
+
+0.052
+-----
+Bug fix: The return value of JE::LValue->can can now be used and will
+delegate properly to the referent.
+Test fix:  t/parse08-regexps.t  has been fixed to work with  the  new
+(?^u:...)  stringification of internally-UTF8 regular expressions  in
+perl 5.13.8.
+
+0.051
+-----
+Bug fix:  On DragonFly BSD,  exp(Infinity) and exp(-Infinity) now cor-
+rectly return Infinity and 0,  respectively,  instead of NaN (I hope).
+
+
+TO DO
+
+- Make the parser extensible/customisable
+- Add more helpful error messages
+- Determine some logical way of dealing with locale settings (for
+  String.prototype.localeCompare, et al.)
+- Finish writing tests
+- Deal with circular references
+- Finish making built-in JS properties load lazily
+- Finish optimising JS compiled code by turning it into Perl code
+- Other optimisations
+
+
+INSTALLATION
+
+The easiest way to install this module is to use the CPAN module or
+the cpan script:
+
+    [sudo] perl -MCPAN -e "install JE"
+
+    [sudo] cpan
+    cpan> install JE
+
+Or you can use the following:
+
+    perl Makefile.PL
+    make
+    make test
+    [sudo] make install
+
+
+PREREQUISITES
+
+This module requires perl 5.8.3 or higher and the following modules:
+• Scalar::Util version 1.14 or later
+• The TimeDate distribution (more precisely, Time::Zone, Date::Format
+  and Date::Parse)
+• Encode 2.08 or later
+
+For perl versions earlier than 5.9.4 it also requires
+Tie::RefHash::Weak.
+
+Later it will probably require Unicode::Collate.
+
+There is a slight incompatibility with perl version 5.8.3. If you try
+to create a regular expression with invalid modifiers, you will get a
+warning as well as a SyntaxError. This causes one of the test scripts
+(parse08-regexps.t) to fail.
+
+
+DOCUMENTATION
+
+After installing, you can find documentation for this module with the 
+perldoc command.
+
+    perldoc JE
+
+Or try using man (it's faster, in my experience):
+
+    man JE
+
+
+ACKNOWLEDGEMENTS
+
+Thanks to Kevin Cameron [ kevin  cameron com ] for his  contributions,
+
+to Max Maischein [ webmaster  corion net ] for  letting  me  use  his
+tests,
+
+to Andy Armstrong    [ andy        hexten net       ],
+   Yair Lenga        [ yair lenga  gmail com        ],
+   Alex Robinson     [ alex        solidgoldpig com ],
+   Christian Forster [ boronk      boronk de        ],
+   Imre Rad          [ radimre     freemail hu      ] and
+   Craig MacKenna    [ craig       animalhead com   ]
+for their suggestions,
+
+and to the CPAN Testers for their helpful reports.
+
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2007-10 Father Chrysostomos
+
+This program is free software; you may redistribute it and/or modify
+it under the same terms as perl.
