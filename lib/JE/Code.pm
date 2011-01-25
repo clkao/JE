@@ -1198,8 +1198,11 @@ sub eval {  # evalate (sub)expression
 			T and tainted $taint and $val->can('taint')
 				and $val = taint $val $taint;
 			eval { (pop @terms)->set($val) };
-			$@ and die new JE::Object::Error::ReferenceError
-				$global, add_line_number "Cannot assign to a non-lvalue";
+			if (my $err = $@) {
+				die $err if UNIVERSAL::isa($err, 'JE::Object::Error');
+				die new JE::Object::Error::ReferenceError
+					$global, add_line_number "Cannot assign to a non-lvalue";
+			}
 			# ~~~ This needs to check whether it was an error
 			#     other than 'Can't locate objec mtehod "set"
 			#     since store handlers can thrown other errors.
