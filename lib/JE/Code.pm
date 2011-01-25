@@ -1204,7 +1204,7 @@ sub eval {  # evalate (sub)expression
 					$global, add_line_number "Cannot assign to a non-lvalue";
 			}
 			# ~~~ This needs to check whether it was an error
-			#     other than 'Can't locate objec mtehod "set"
+			#     other than 'Can't locate object method "set"
 			#     since store handlers can thrown other errors.
 			
 		}
